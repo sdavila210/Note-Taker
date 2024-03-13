@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 const PORT = 3001;
 
@@ -17,9 +18,33 @@ app.get('/notes', (req, res) =>
     res.sendFile(path.join(__dirname, 'public/notes.html'))
 );
 
-app.get('*', (req, res) =>
+app.get('/', (req, res) =>
     res.sendFile(path.join(__dirname, 'public/index.html'))
 );
+
+app.get('/api/notes', (req, res) => {
+    fs.readFile('db/db.json', 'utf8', (err, result) => {
+        const data = JSON.parse(result)
+        res.json(data)
+    })
+}
+)
+
+app.post('/api/notes', (req, res) => {
+    const newNote = {
+        title: req.body.title,
+        text: req.body.text,
+        id: uuidv4()
+    }
+    console.log(newNote)
+    fs.readFile('db/db.json', 'utf8', (err, result) => {
+        const data = JSON.parse(result)
+        data.push(newNote)
+        fs.writeFile('db/db.json', JSON.stringify(data), (err) => {
+            res.json(newNote)
+        })
+    })
+})
 
 app.listen(PORT, () =>
     console.log(`App listening at https://localhost:${PORT}`)

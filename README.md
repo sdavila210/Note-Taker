@@ -39,7 +39,7 @@ An application called Note Taker that uses Express.js to save and retrieve note 
 
   ## License
   MIT License
-  https://img.shields.io/badge/License-MIT-yellow.svg
+  ![License Badge](https://img.shields.io/badge/License-MIT-yellow.svg)
   
 
   For more information on this license, go to: https://opensource.org/licenses/MIT.
